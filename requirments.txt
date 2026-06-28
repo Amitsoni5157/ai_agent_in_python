@@ -6,4 +6,4 @@ langchain-anthropic
 langchain-groq
 python-dotenv
 pydantic
-qorq
+groq
