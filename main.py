@@ -1,4 +1,5 @@
 from dotenv import load_dotenv
+# pyrefly: ignore [missing-import]
 from langchain_groq import ChatGroq
 from pydantic import BaseModel
 from tools import search_tool, wiki_tool, save_tool
@@ -17,6 +18,7 @@ def main():
     load_dotenv()
     
     # Initialize the Language Model (LLM)
+    # In your model setup file:
     llm = ChatGroq(model="llama-3.3-70b-versatile")
     
     # Collect all imported tools into a list
@@ -26,7 +28,7 @@ def main():
     research_agent = ResearchAgent(llm=llm, tools=tools)
     
     # Define execution query
-    query = "What is the capital of France?"
+    query = input("Put your query here: ")
     print("Executing query...")
     
     # Execute the query using our agent's clean run interface

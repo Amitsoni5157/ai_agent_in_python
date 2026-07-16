@@ -17,7 +17,13 @@ class ResearchAgent:
                     "system",
                     "You are a research assistant that will help generate a research paper. "
                     "Answer the user query using the necessary tools provided. "
-                    "Once you have final research insights, provide a comprehensive summary.",
+                    "For any factual, academic, or research-oriented query, you MUST use the search tools (`wikipedia_search` or `internet_search_function`) to find the information, even if you already know the answer. Do not answer directly without using a tool. "
+                    "When you need to call a tool, output ONLY the tool call without any conversational text or filler before or after it. "
+                    "Once you have final research insights, provide a comprehensive summary. "
+                    "If the user's query is completely unrelated to research, academic topics, or factual queries "
+                    "(for example, simple greetings, casual chitchat, jokes, or commands like 'tell me a joke'), "
+                    "do NOT use any tools. Instead, politely inform the user in English/Hinglish that you are a "
+                    "research assistant designed to help with research papers, and ask them to ask a research-oriented question.",
                 ),
                 ("placeholder", "{chat_history}"),
                 ("human", "{query}"),
@@ -36,5 +42,9 @@ class ResearchAgent:
 
     def run(self, query: str) -> str:
         """Executes the user query through the agent framework."""
-        raw_response = self.executor.invoke({"query": query})
-        return raw_response.get("output", "")
+        try:
+            raw_response = self.executor.invoke({"query": query})
+            return raw_response.get("output", "")
+        except Exception as e:
+            print(f"\n[DEBUG ERROR] actual error is: {e}\n")
+            return "I am a research assistant designed to help with research papers. Please ask a research-oriented question."
